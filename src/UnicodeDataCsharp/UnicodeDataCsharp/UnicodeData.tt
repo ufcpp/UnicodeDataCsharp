@@ -1,0 +1,26 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+<#
+Generate(
+    "UnicodeData",
+    Hex("CodePoint"),
+    Str("Name"),
+    Str("GeneralCategory"),
+    Str("CombiningCategory"),
+    Str("BidirectionalCategory"),
+    Str("DecompositionMapping"), // ほんとはスペース区切りの複数の Hex
+    Dec("DecimalDigit"),
+    Str("Digit"),
+    Str("Numeric"),
+    YN("Mirrored"),
+    Str("Unicode1Name"),
+    Str("Comment"),
+    Hex("UpperCasMapping"),
+    Hex("LowerCasMapping"),
+    Hex("TitleCasMapping"));
+#>
+<#@ include file="ucd.ttinclude" #>

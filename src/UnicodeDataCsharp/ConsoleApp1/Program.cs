@@ -21,7 +21,16 @@ namespace ConsoleApp1
 
             var content = await Loader.LoadContentAsync(Path.Combine(ucdUrl, file), Path.Combine(cacheFolder, file));
 
-            ReadLines(content);
+            ReadUnicodeData(content);
+            //ReadLines(content);
+        }
+
+        private static void ReadUnicodeData(byte[] content)
+        {
+            foreach (var e in new UnicodeData(content).GetEntries().Take(10))
+            {
+                Console.WriteLine(e);
+            }
         }
 
         private static void ReadLines(byte[] content)

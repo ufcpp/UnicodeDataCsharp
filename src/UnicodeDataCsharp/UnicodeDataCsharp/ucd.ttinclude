@@ -1,0 +1,110 @@
+﻿<#+
+enum UcdFieldType
+{
+    String,
+    Hexadecimal,
+    Decimal,
+    YesNo,
+}
+
+struct UcdField
+{
+    public string Name { get; }
+    public UcdFieldType Type { get; }
+    public UcdField(string name, UcdFieldType type) => (Name, Type) = (name, type);
+    public void Deconstruct(out string name, out UcdFieldType type) => (name, type) = (Name, Type);
+}
+
+UcdField Str(string name) => new UcdField(name, UcdFieldType.String);
+UcdField Hex(string name) => new UcdField(name, UcdFieldType.Hexadecimal);
+UcdField Dec(string name) => new UcdField(name, UcdFieldType.Decimal);
+UcdField YN(string name) => new UcdField(name, UcdFieldType.YesNo);
+
+void Generate(string name, params UcdField[] fields)
+{
+#>
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Text;
+
+namespace UnicodeDataCsharp
+{
+    public struct <#= name #> : IEnumerable<<#= name #>.Line>
+    {
+        private readonly byte[] _data;
+        public <#= name #>(byte[] data) => _data = data;
+
+        public LineEnumerator<Line, LineFactory> GetEnumerator() => new LineEnumerator<Line, LineFactory>(_data);
+        IEnumerator<Line> IEnumerable<Line>.GetEnumerator() => GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        public struct LineFactory : ILineFactory<Line>
+        {
+            public Line New(ReadOnlyMemory<byte> line) => new Line(line);
+        }
+
+        // この型の時点ではアロケーションなしで、ReadOnlyMemory{T} を使ってスプリットしてる。
+        public readonly struct Line
+        {
+            private readonly ReadOnlyMemory<byte> _rawData;
+            public Line(ReadOnlyMemory<byte> rawData) => _rawData = rawData;
+
+            public override string ToString() => Encoding.UTF8.GetString(_rawData.Span);
+
+<#+
+    for (var i = 0; i < fields.Length; ++i)
+    {
+        var (f, _) = fields[i];
+#>
+            public ReadOnlyMemory<byte> <#= f #> => GetValue(<#= i #>);
+<#+
+    }
+#>
+
+            private ReadOnlyMemory<byte> GetValue(int column) => LineSplitter.GetValue(_rawData, column);
+
+            /// <summary>
+            /// <see cref="Entry"/>
+            /// </summary>
+            public Entry GetEntry() => new Entry(this);
+        }
+
+        // Line の各フィールドを parse。
+        public class Entry
+        {
+<#+
+    for (var i = 0; i < fields.Length; ++i)
+    {
+        var (f, _) = fields[i];
+#>
+            public string <#= f #> { get; }
+<#+
+    }
+#>
+
+            public Entry(Line line)
+            {
+<#+
+    for (var i = 0; i < fields.Length; ++i)
+    {
+        var (f, _) = fields[i];
+#>
+                <#= f #> = Encoding.UTF8.GetString(line.<#= f #>.Span);
+<#+
+    }
+#>
+            }
+
+            public override string ToString() => (<#= string.Join(", ", fields.Select(x => x.Name)) #>).ToString();
+        }
+
+        public IEnumerable<Entry> GetEntries()
+        {
+            foreach (var line in this) yield return line.GetEntry();
+        }
+    }
+}
+<#+
+}
+#>
