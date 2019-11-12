@@ -65,7 +65,7 @@ namespace UnicodeDataCsharp
             public string DecimalDigit { get; }
             public string Digit { get; }
             public string Numeric { get; }
-            public string Mirrored { get; }
+            public bool Mirrored { get; }
             public string Unicode1Name { get; }
             public string Comment { get; }
             public string UpperCasMapping { get; }
@@ -83,7 +83,7 @@ namespace UnicodeDataCsharp
                 DecimalDigit = GetString(line.DecimalDigit);
                 Digit = GetString(line.Digit);
                 Numeric = GetString(line.Numeric);
-                Mirrored = GetString(line.Mirrored);
+                Mirrored = ParseYN(line.Mirrored);
                 Unicode1Name = GetString(line.Unicode1Name);
                 Comment = GetString(line.Comment);
                 UpperCasMapping = GetString(line.UpperCasMapping);

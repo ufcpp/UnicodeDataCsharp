@@ -20,6 +20,20 @@ UcdField Hex(string name) => new UcdField(name, UcdFieldType.Hexadecimal);
 UcdField Dec(string name) => new UcdField(name, UcdFieldType.Decimal);
 UcdField YN(string name) => new UcdField(name, UcdFieldType.YesNo);
 
+string GetTypeName(UcdFieldType type)
+    => type switch
+    {
+        UcdFieldType.YesNo => "bool",
+        _ => "string",
+    };
+
+string GetParserName(UcdFieldType type)
+    => type switch
+    {
+        UcdFieldType.YesNo => "ParseYN",
+        _ => "GetString",
+    };
+
 void Generate(string name, params UcdField[] fields)
 {
 #>
@@ -78,9 +92,9 @@ namespace UnicodeDataCsharp
 <#+
     for (var i = 0; i < fields.Length; ++i)
     {
-        var (f, _) = fields[i];
+        var (f, t) = fields[i];
 #>
-            public string <#= f #> { get; }
+            public <#= GetTypeName(t) #> <#= f #> { get; }
 <#+
     }
 #>
@@ -90,9 +104,9 @@ namespace UnicodeDataCsharp
 <#+
     for (var i = 0; i < fields.Length; ++i)
     {
-        var (f, _) = fields[i];
+        var (f, t) = fields[i];
 #>
-                <#= f #> = GetString(line.<#= f #>);
+                <#= f #> = <#= GetParserName(t) #>(line.<#= f #>);
 <#+
     }
 #>
