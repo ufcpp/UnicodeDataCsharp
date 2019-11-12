@@ -30,6 +30,8 @@ using System.Text;
 
 namespace UnicodeDataCsharp
 {
+    using static Parser;
+
     public struct <#= name #> : IEnumerable<<#= name #>.Line>
     {
         private readonly byte[] _data;
@@ -50,7 +52,7 @@ namespace UnicodeDataCsharp
             private readonly ReadOnlyMemory<byte> _rawData;
             public Line(ReadOnlyMemory<byte> rawData) => _rawData = rawData;
 
-            public override string ToString() => Encoding.UTF8.GetString(_rawData.Span);
+            public override string ToString() => GetString(_rawData);
 
 <#+
     for (var i = 0; i < fields.Length; ++i)
@@ -90,7 +92,7 @@ namespace UnicodeDataCsharp
     {
         var (f, _) = fields[i];
 #>
-                <#= f #> = Encoding.UTF8.GetString(line.<#= f #>.Span);
+                <#= f #> = GetString(line.<#= f #>);
 <#+
     }
 #>

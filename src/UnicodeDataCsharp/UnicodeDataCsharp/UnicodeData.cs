@@ -5,6 +5,8 @@ using System.Text;
 
 namespace UnicodeDataCsharp
 {
+    using static Parser;
+
     public struct UnicodeData : IEnumerable<UnicodeData.Line>
     {
         private readonly byte[] _data;
@@ -25,7 +27,7 @@ namespace UnicodeDataCsharp
             private readonly ReadOnlyMemory<byte> _rawData;
             public Line(ReadOnlyMemory<byte> rawData) => _rawData = rawData;
 
-            public override string ToString() => Encoding.UTF8.GetString(_rawData.Span);
+            public override string ToString() => GetString(_rawData);
 
             public ReadOnlyMemory<byte> CodePoint => GetValue(0);
             public ReadOnlyMemory<byte> Name => GetValue(1);
@@ -72,21 +74,21 @@ namespace UnicodeDataCsharp
 
             public Entry(Line line)
             {
-                CodePoint = Encoding.UTF8.GetString(line.CodePoint.Span);
-                Name = Encoding.UTF8.GetString(line.Name.Span);
-                GeneralCategory = Encoding.UTF8.GetString(line.GeneralCategory.Span);
-                CombiningCategory = Encoding.UTF8.GetString(line.CombiningCategory.Span);
-                BidirectionalCategory = Encoding.UTF8.GetString(line.BidirectionalCategory.Span);
-                DecompositionMapping = Encoding.UTF8.GetString(line.DecompositionMapping.Span);
-                DecimalDigit = Encoding.UTF8.GetString(line.DecimalDigit.Span);
-                Digit = Encoding.UTF8.GetString(line.Digit.Span);
-                Numeric = Encoding.UTF8.GetString(line.Numeric.Span);
-                Mirrored = Encoding.UTF8.GetString(line.Mirrored.Span);
-                Unicode1Name = Encoding.UTF8.GetString(line.Unicode1Name.Span);
-                Comment = Encoding.UTF8.GetString(line.Comment.Span);
-                UpperCasMapping = Encoding.UTF8.GetString(line.UpperCasMapping.Span);
-                LowerCasMapping = Encoding.UTF8.GetString(line.LowerCasMapping.Span);
-                TitleCasMapping = Encoding.UTF8.GetString(line.TitleCasMapping.Span);
+                CodePoint = GetString(line.CodePoint);
+                Name = GetString(line.Name);
+                GeneralCategory = GetString(line.GeneralCategory);
+                CombiningCategory = GetString(line.CombiningCategory);
+                BidirectionalCategory = GetString(line.BidirectionalCategory);
+                DecompositionMapping = GetString(line.DecompositionMapping);
+                DecimalDigit = GetString(line.DecimalDigit);
+                Digit = GetString(line.Digit);
+                Numeric = GetString(line.Numeric);
+                Mirrored = GetString(line.Mirrored);
+                Unicode1Name = GetString(line.Unicode1Name);
+                Comment = GetString(line.Comment);
+                UpperCasMapping = GetString(line.UpperCasMapping);
+                LowerCasMapping = GetString(line.LowerCasMapping);
+                TitleCasMapping = GetString(line.TitleCasMapping);
             }
 
             public override string ToString() => (CodePoint, Name, GeneralCategory, CombiningCategory, BidirectionalCategory, DecompositionMapping, DecimalDigit, Digit, Numeric, Mirrored, Unicode1Name, Comment, UpperCasMapping, LowerCasMapping, TitleCasMapping).ToString();
