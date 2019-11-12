@@ -17,8 +17,8 @@ namespace ConsoleApp1
             if (!Directory.Exists(cacheFolder))
                 Directory.CreateDirectory(cacheFolder);
 
-            //await UnicodeData();
-            await GraphemeBreakProperty();
+            await UnicodeData();
+            //await GraphemeBreakProperty();
         }
 
         private static async Task UnicodeData()
@@ -27,7 +27,8 @@ namespace ConsoleApp1
 
             var content = await Loader.LoadContentAsync(Path.Combine(ucdUrl, file), Path.Combine(cacheFolder, file));
 
-            ReadUnicodeData(content);
+            DecompositionMap(content);
+            //ReadUnicodeData(content);
             //ReadLines(content);
         }
 
@@ -65,6 +66,16 @@ namespace ConsoleApp1
                 {
                     if (!ReferenceEquals(x, first)) throw new Exception();
                 }
+            }
+        }
+
+        private static void DecompositionMap(byte[] content)
+        {
+            foreach (var e in new UnicodeData(content).GetEntries())
+            {
+                if (e.DecompositionMapping.Length == 0) continue;
+
+                Console.WriteLine(e.DecompositionMapping);
             }
         }
 
