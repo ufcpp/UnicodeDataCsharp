@@ -5,7 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="UnicodeData.cs">
+    <None Include="tt\GraphemeBreakProperty.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>GraphemeBreakProperty.tt</DependentUpon>
+    </None>
+    <None Include="tt\UnicodeData.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>UnicodeData.tt</DependentUpon>
@@ -13,7 +18,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="UnicodeData.tt">
+    <None Update="tt\GraphemeBreakProperty.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>GraphemeBreakProperty.cs</LastGenOutput>
+    </None>
+    <None Update="tt\UnicodeData.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>UnicodeData.cs</LastGenOutput>
     </None>
@@ -24,7 +33,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="UnicodeData.cs">
+    <Compile Update="tt\GraphemeBreakProperty.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>GraphemeBreakProperty.tt</DependentUpon>
+    </Compile>
+    <Compile Update="tt\UnicodeData.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>UnicodeData.tt</DependentUpon>

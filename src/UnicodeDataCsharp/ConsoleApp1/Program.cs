@@ -17,11 +17,31 @@ namespace ConsoleApp1
             if (!Directory.Exists(cacheFolder))
                 Directory.CreateDirectory(cacheFolder);
 
+            //await UnicodeData();
+            await GraphemeBreakProperty();
+        }
+
+        private static async Task UnicodeData()
+        {
             var file = "UnicodeData.txt";
 
             var content = await Loader.LoadContentAsync(Path.Combine(ucdUrl, file), Path.Combine(cacheFolder, file));
 
             ReadUnicodeData(content);
+            //ReadLines(content);
+        }
+
+        private static async Task GraphemeBreakProperty()
+        {
+            var file = "GraphemeBreakProperty.txt";
+
+            var content = await Loader.LoadContentAsync(Path.Combine(ucdUrl, "auxiliary", file), Path.Combine(cacheFolder, file));
+
+            foreach (var e in new GraphemeBreakProperty(content).GetEntries())
+            {
+                Console.WriteLine(e);
+            }
+
             //ReadLines(content);
         }
 
