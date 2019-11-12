@@ -9,8 +9,6 @@ enum UcdFieldType
     RuneOpt,
     RuneRange,
     String,
-    Hexadecimal,
-    Decimal,
     YesNo,
 }
 
@@ -26,8 +24,6 @@ UcdField Rune(string name) => new UcdField(name, UcdFieldType.Rune);
 UcdField RuneOpt(string name) => new UcdField(name, UcdFieldType.RuneOpt);
 UcdField RuneRange(string name) => new UcdField(name, UcdFieldType.RuneRange);
 UcdField Str(string name) => new UcdField(name, UcdFieldType.String);
-UcdField Hex(string name) => new UcdField(name, UcdFieldType.Hexadecimal);
-UcdField Dec(string name) => new UcdField(name, UcdFieldType.Decimal);
 UcdField YN(string name) => new UcdField(name, UcdFieldType.YesNo);
 
 string GetTypeName(UcdFieldType type)
