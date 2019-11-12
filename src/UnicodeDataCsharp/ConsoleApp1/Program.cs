@@ -27,7 +27,7 @@ namespace ConsoleApp1
 
         private static void ReadUnicodeData(byte[] content)
         {
-            foreach (var e in new UnicodeData(content).GetEntries().Take(10))
+            foreach (var e in new UnicodeData(content).GetEntries().Skip(30).Take(50))
             {
                 Console.WriteLine(e);
             }

@@ -56,7 +56,7 @@ namespace UnicodeDataCsharp
         // Line の各フィールドを parse。
         public class Entry
         {
-            public string CodePoint { get; }
+            public Rune CodePoint { get; }
             public string Name { get; }
             public string GeneralCategory { get; }
             public string CombiningCategory { get; }
@@ -68,13 +68,13 @@ namespace UnicodeDataCsharp
             public bool Mirrored { get; }
             public string Unicode1Name { get; }
             public string Comment { get; }
-            public string UpperCasMapping { get; }
-            public string LowerCasMapping { get; }
-            public string TitleCasMapping { get; }
+            public Rune? UpperCasMapping { get; }
+            public Rune? LowerCasMapping { get; }
+            public Rune? TitleCasMapping { get; }
 
             public Entry(Line line)
             {
-                CodePoint = GetString(line.CodePoint);
+                CodePoint = ParseRune(line.CodePoint);
                 Name = GetString(line.Name);
                 GeneralCategory = GetString(line.GeneralCategory);
                 CombiningCategory = GetString(line.CombiningCategory);
@@ -86,9 +86,9 @@ namespace UnicodeDataCsharp
                 Mirrored = ParseYN(line.Mirrored);
                 Unicode1Name = GetString(line.Unicode1Name);
                 Comment = GetString(line.Comment);
-                UpperCasMapping = GetString(line.UpperCasMapping);
-                LowerCasMapping = GetString(line.LowerCasMapping);
-                TitleCasMapping = GetString(line.TitleCasMapping);
+                UpperCasMapping = ParseRuneOpt(line.UpperCasMapping);
+                LowerCasMapping = ParseRuneOpt(line.LowerCasMapping);
+                TitleCasMapping = ParseRuneOpt(line.TitleCasMapping);
             }
 
             public override string ToString() => (CodePoint, Name, GeneralCategory, CombiningCategory, BidirectionalCategory, DecompositionMapping, DecimalDigit, Digit, Numeric, Mirrored, Unicode1Name, Comment, UpperCasMapping, LowerCasMapping, TitleCasMapping).ToString();

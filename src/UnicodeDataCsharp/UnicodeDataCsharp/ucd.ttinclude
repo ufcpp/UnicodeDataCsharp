@@ -1,6 +1,8 @@
 ﻿<#+
 enum UcdFieldType
 {
+    Rune,
+    RuneOpt,
     String,
     Hexadecimal,
     Decimal,
@@ -15,6 +17,8 @@ struct UcdField
     public void Deconstruct(out string name, out UcdFieldType type) => (name, type) = (Name, Type);
 }
 
+UcdField Rune(string name) => new UcdField(name, UcdFieldType.Rune);
+UcdField RuneOpt(string name) => new UcdField(name, UcdFieldType.RuneOpt);
 UcdField Str(string name) => new UcdField(name, UcdFieldType.String);
 UcdField Hex(string name) => new UcdField(name, UcdFieldType.Hexadecimal);
 UcdField Dec(string name) => new UcdField(name, UcdFieldType.Decimal);
@@ -23,15 +27,18 @@ UcdField YN(string name) => new UcdField(name, UcdFieldType.YesNo);
 string GetTypeName(UcdFieldType type)
     => type switch
     {
+        UcdFieldType.String => "string",
         UcdFieldType.YesNo => "bool",
-        _ => "string",
+        UcdFieldType.RuneOpt => "Rune?",
+        _ => type.ToString(),
     };
 
 string GetParserName(UcdFieldType type)
     => type switch
     {
+        UcdFieldType.String => "GetString",
         UcdFieldType.YesNo => "ParseYN",
-        _ => "GetString",
+        _ => "Parse" + type,
     };
 
 void Generate(string name, params UcdField[] fields)

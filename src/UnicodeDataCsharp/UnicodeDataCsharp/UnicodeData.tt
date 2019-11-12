@@ -7,20 +7,20 @@
 <#
 Generate(
     "UnicodeData",
-    Hex("CodePoint"),
+    Rune("CodePoint"),
     Str("Name"),
     Str("GeneralCategory"),
     Str("CombiningCategory"),
     Str("BidirectionalCategory"),
     Str("DecompositionMapping"), // ほんとはスペース区切りの複数の Hex
-    Dec("DecimalDigit"),
+    Str("DecimalDigit"), // 数字のはずなんだけど、 1/3 みたいなのがあるのは Numeric の方だけで、こっちは Parse 可能？要調査。
     Str("Digit"),
     Str("Numeric"),
     YN("Mirrored"),
     Str("Unicode1Name"),
     Str("Comment"),
-    Hex("UpperCasMapping"),
-    Hex("LowerCasMapping"),
-    Hex("TitleCasMapping"));
+    RuneOpt("UpperCasMapping"),
+    RuneOpt("LowerCasMapping"),
+    RuneOpt("TitleCasMapping"));
 #>
 <#@ include file="ucd.ttinclude" #>
