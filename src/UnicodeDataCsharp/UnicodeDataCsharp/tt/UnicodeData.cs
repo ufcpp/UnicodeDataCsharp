@@ -76,9 +76,9 @@ namespace UnicodeDataCsharp
             {
                 CodePoint = ParseRune(line.CodePoint);
                 Name = GetString(line.Name);
-                GeneralCategory = GetString(line.GeneralCategory);
+                GeneralCategory = GetInternString(line.GeneralCategory);
                 CombiningCategory = GetString(line.CombiningCategory);
-                BidirectionalCategory = GetString(line.BidirectionalCategory);
+                BidirectionalCategory = GetInternString(line.BidirectionalCategory);
                 DecompositionMapping = GetString(line.DecompositionMapping);
                 DecimalDigit = GetString(line.DecimalDigit);
                 Digit = GetString(line.Digit);

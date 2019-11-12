@@ -49,7 +49,7 @@ namespace UnicodeDataCsharp
             public Entry(Line line)
             {
                 CodePoint = ParseRuneRange(line.CodePoint);
-                Value = GetString(line.Value);
+                Value = GetInternString(line.Value);
             }
 
             public override string ToString() => (CodePoint, Value).ToString();

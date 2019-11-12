@@ -42,7 +42,30 @@ namespace ConsoleApp1
                 Console.WriteLine(e);
             }
 
-            //ReadLines(content);
+            //CheckInterned(content);
+        }
+
+        /// <summary>
+        /// <see cref="Parser.GetInternString(ReadOnlyMemory{byte})"/> で作った string は、
+        /// x == y なら常に ReferenceEquals(x, y) になってるはず。
+        /// というののチェック。
+        /// </summary>
+        private static void CheckInterned(byte[] content)
+        {
+            var groups = new GraphemeBreakProperty(content).GetEntries()
+                .Select(x => x.Value)
+                .GroupBy(x => x);
+
+            foreach (var g in groups)
+            {
+                Console.WriteLine(g.Count());
+
+                var first = g.First();
+                foreach (var x in g)
+                {
+                    if (!ReferenceEquals(x, first)) throw new Exception();
+                }
+            }
         }
 
         private static void ReadUnicodeData(byte[] content)

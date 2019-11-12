@@ -8,7 +8,16 @@ namespace UnicodeDataCsharp
     {
         private static readonly Encoding _utf8 = Encoding.UTF8;
 
-        public static string GetString(ReadOnlyMemory<byte> utf8) => _utf8.GetString(utf8.Span);
+        public static string GetString(ReadOnlyMemory<byte> utf8) => GetString(utf8.Span);
+        public static string GetString(ReadOnlySpan<byte> utf8) => _utf8.GetString(utf8);
+
+        private static readonly Map _internString = new Map();
+
+        /// <summary>
+        /// 文字列なんだけど、限られた種類しか来ないことがわかっているものに使う。
+        /// 同じ UTF-8 <see cref="ReadOnlySpan{byte}"/> からは常に同一インスタンスの string を返す。
+        /// </summary>
+        public static string GetInternString(ReadOnlyMemory<byte> utf8) => _internString.GetString(utf8.Span);
 
         /// <summary>
         /// Y か N か(それぞれ Yes/No の意味。true/false として解釈)のフィールドを parse。

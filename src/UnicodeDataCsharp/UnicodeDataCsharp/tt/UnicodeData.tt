@@ -3,13 +3,13 @@ Generate(
     "UnicodeData",
     Rune("CodePoint"),
     Str("Name"),
-    Str("GeneralCategory"),
-    Str("CombiningCategory"),
-    Str("BidirectionalCategory"),
+    IStr("GeneralCategory"),
+    Str("CombiningCategory"), // たぶん全部10進整数
+    IStr("BidirectionalCategory"),
     Str("DecompositionMapping"), // ほんとはスペース区切りの複数の Hex
     Str("DecimalDigit"), // 数字のはずなんだけど、 1/3 みたいなのがあるのは Numeric の方だけで、こっちは Parse 可能？要調査。
     Str("Digit"),
-    Str("Numeric"),
+    Str("Numeric"), // IStr でもいいかも。要確認。
     YN("Mirrored"),
     Str("Unicode1Name"),
     Str("Comment"),

@@ -9,6 +9,7 @@ enum UcdFieldType
     RuneOpt,
     RuneRange,
     String,
+    InternString,
     YesNo,
 }
 
@@ -24,12 +25,14 @@ UcdField Rune(string name) => new UcdField(name, UcdFieldType.Rune);
 UcdField RuneOpt(string name) => new UcdField(name, UcdFieldType.RuneOpt);
 UcdField RuneRange(string name) => new UcdField(name, UcdFieldType.RuneRange);
 UcdField Str(string name) => new UcdField(name, UcdFieldType.String);
+UcdField IStr(string name) => new UcdField(name, UcdFieldType.InternString);
 UcdField YN(string name) => new UcdField(name, UcdFieldType.YesNo);
 
 string GetTypeName(UcdFieldType type)
     => type switch
     {
         UcdFieldType.String => "string",
+        UcdFieldType.InternString => "string",
         UcdFieldType.YesNo => "bool",
         UcdFieldType.RuneOpt => "Rune?",
         _ => type.ToString(),
@@ -39,6 +42,7 @@ string GetParserName(UcdFieldType type)
     => type switch
     {
         UcdFieldType.String => "GetString",
+        UcdFieldType.InternString => "GetInternString",
         UcdFieldType.YesNo => "ParseYN",
         _ => "Parse" + type,
     };

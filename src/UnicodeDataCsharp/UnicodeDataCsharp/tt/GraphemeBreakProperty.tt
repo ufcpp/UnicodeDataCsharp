@@ -2,6 +2,6 @@
 Generate(
     "GraphemeBreakProperty",
     RuneRange("CodePoint"),
-    Str("Value")); // enum みたいなの用意したい or intern 化したい
+    IStr("Value")); // enum みたいなの用意したい or intern 化したい
 #>
 <#@ include file="ucd.ttinclude" #>
