@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace UnicodeDataCsharp
@@ -45,8 +47,13 @@ namespace UnicodeDataCsharp
                     await Loader.LoadContentAsync(
                         Path.Combine(BaseUrl, "UnicodeData.Txt"),
                         Path.Combine(CacheFolder, "UnicodeData.Txt")));
-
         private UnicodeData? _UnicodeData;
+
+        // ReadOnlyMemory で返すべきか迷う。
+        // 配列返すと書き換えられちゃうからほんとはまずいけど、生配列の方がパフォーマンスがよく。
+        public async ValueTask<UnicodeData.Entry[]> GetUnicodeDataEntries()
+            => _UnicodeDataEntries ??= (await GetUnicodeData()).GetEntries().ToArray();
+        private UnicodeData.Entry[] _UnicodeDataEntries;
 
         public async ValueTask<SingleProperty> GetGraphemeBreakProperty()
             => _GraphemeBreakProperty ??=
@@ -56,5 +63,9 @@ namespace UnicodeDataCsharp
                         Path.Combine(CacheFolder, "GraphemeBreakProperty.Txt")));
 
         private SingleProperty? _GraphemeBreakProperty;
+
+        public async ValueTask<SingleProperty.Entry[]> GetGraphemeBreakPropertyEntries()
+            => _GraphemeBreakPropertyEntries ??= (await GetGraphemeBreakProperty()).GetEntries().ToArray();
+        private SingleProperty.Entry[] _GraphemeBreakPropertyEntries;
     }
 }
