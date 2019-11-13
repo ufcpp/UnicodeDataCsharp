@@ -5,9 +5,9 @@
 <#+
 enum UcdFieldType
 {
-    Rune,
-    RuneOpt,
-    RuneRange,
+    CodePoint,
+    CodePointOpt,
+    CodePointRange,
     String,
     InternString,
     YesNo,
@@ -21,9 +21,9 @@ struct UcdField
     public void Deconstruct(out string name, out UcdFieldType type) => (name, type) = (Name, Type);
 }
 
-UcdField Rune(string name) => new UcdField(name, UcdFieldType.Rune);
-UcdField RuneOpt(string name) => new UcdField(name, UcdFieldType.RuneOpt);
-UcdField RuneRange(string name) => new UcdField(name, UcdFieldType.RuneRange);
+UcdField Cp(string name) => new UcdField(name, UcdFieldType.CodePoint);
+UcdField CpOpt(string name) => new UcdField(name, UcdFieldType.CodePointOpt);
+UcdField CpRange(string name) => new UcdField(name, UcdFieldType.CodePointRange);
 UcdField Str(string name) => new UcdField(name, UcdFieldType.String);
 UcdField IStr(string name) => new UcdField(name, UcdFieldType.InternString);
 UcdField YN(string name) => new UcdField(name, UcdFieldType.YesNo);
@@ -34,7 +34,8 @@ string GetTypeName(UcdFieldType type)
         UcdFieldType.String => "string",
         UcdFieldType.InternString => "string",
         UcdFieldType.YesNo => "bool",
-        UcdFieldType.RuneOpt => "Rune?",
+        UcdFieldType.CodePoint => "uint",
+        UcdFieldType.CodePointOpt => "uint?",
         _ => type.ToString(),
     };
 

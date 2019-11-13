@@ -1,7 +1,7 @@
 ﻿<#
 Generate(
     "UnicodeData", false,
-    Rune("CodePoint"),
+    Cp("CodePoint"),
     Str("Name"),
     IStr("GeneralCategory"),
     Str("CombiningCategory"), // たぶん全部10進整数
@@ -13,8 +13,8 @@ Generate(
     YN("Mirrored"),
     Str("Unicode1Name"),
     Str("Comment"),
-    RuneOpt("UpperCasMapping"),
-    RuneOpt("LowerCasMapping"),
-    RuneOpt("TitleCasMapping"));
+    CpOpt("UpperCasMapping"),
+    CpOpt("LowerCasMapping"),
+    CpOpt("TitleCasMapping"));
 #>
 <#@ include file="ucd.ttinclude" #>

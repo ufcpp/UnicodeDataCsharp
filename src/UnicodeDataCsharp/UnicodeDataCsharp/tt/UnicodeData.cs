@@ -56,7 +56,7 @@ namespace UnicodeDataCsharp
         // Line の各フィールドを parse。
         public partial class Entry
         {
-            public Rune CodePoint { get; }
+            public uint CodePoint { get; }
             public string Name { get; }
             public string GeneralCategory { get; }
             public string CombiningCategory { get; }
@@ -68,13 +68,13 @@ namespace UnicodeDataCsharp
             public bool Mirrored { get; }
             public string Unicode1Name { get; }
             public string Comment { get; }
-            public Rune? UpperCasMapping { get; }
-            public Rune? LowerCasMapping { get; }
-            public Rune? TitleCasMapping { get; }
+            public uint? UpperCasMapping { get; }
+            public uint? LowerCasMapping { get; }
+            public uint? TitleCasMapping { get; }
 
             public Entry(Line line)
             {
-                CodePoint = ParseRune(line.CodePoint);
+                CodePoint = ParseCodePoint(line.CodePoint);
                 Name = GetString(line.Name);
                 GeneralCategory = GetInternString(line.GeneralCategory);
                 CombiningCategory = GetString(line.CombiningCategory);
@@ -86,9 +86,9 @@ namespace UnicodeDataCsharp
                 Mirrored = ParseYN(line.Mirrored);
                 Unicode1Name = GetString(line.Unicode1Name);
                 Comment = GetString(line.Comment);
-                UpperCasMapping = ParseRuneOpt(line.UpperCasMapping);
-                LowerCasMapping = ParseRuneOpt(line.LowerCasMapping);
-                TitleCasMapping = ParseRuneOpt(line.TitleCasMapping);
+                UpperCasMapping = ParseCodePointOpt(line.UpperCasMapping);
+                LowerCasMapping = ParseCodePointOpt(line.LowerCasMapping);
+                TitleCasMapping = ParseCodePointOpt(line.TitleCasMapping);
             }
 
             public override string ToString() => (CodePoint, Name, GeneralCategory, CombiningCategory, BidirectionalCategory, DecompositionMapping, DecimalDigit, Digit, Numeric, Mirrored, Unicode1Name, Comment, UpperCasMapping, LowerCasMapping, TitleCasMapping).ToString();

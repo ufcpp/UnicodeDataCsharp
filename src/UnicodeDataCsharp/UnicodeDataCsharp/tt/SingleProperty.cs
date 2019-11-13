@@ -43,12 +43,12 @@ namespace UnicodeDataCsharp
         // Line の各フィールドを parse。
         public readonly partial struct Entry
         {
-            public RuneRange Range { get; }
+            public CodePointRange Range { get; }
             public string Value { get; }
 
             public Entry(Line line)
             {
-                Range = ParseRuneRange(line.Range);
+                Range = ParseCodePointRange(line.Range);
                 Value = GetInternString(line.Value);
             }
 

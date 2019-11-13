@@ -34,22 +34,20 @@ namespace UnicodeDataCsharp
         /// <remarks>
         /// UCD 中、Code Point は16進数で書かれてる。
         /// (知っている範囲では全部１６進数。)
-        /// Rune (Unicode Scalar、サロゲートペアの片割れみたいな不正な値を除外したやつ)になってない Code Point
-        /// (要するに不正な値)を見かけたこともないので <see cref="Rune"/> を返す。
         /// </remarks>
-        public static Rune ParseRune(ReadOnlyMemory<byte> utf8)
+        public static uint ParseCodePoint(ReadOnlyMemory<byte> utf8)
         {
-            if (Utf8Parser.TryParse(utf8.Span, out uint x, out _, 'X')) return new Rune(x);
+            if (Utf8Parser.TryParse(utf8.Span, out uint x, out _, 'X')) return x;
             throw new InvalidOperationException();
         }
 
         /// <summary>
-        /// <see cref="Rune"/> で、フィールドが空っぽのことがあるやつ。
+        /// Code Point で、フィールドが空っぽのことがあるやつ。
         /// 空っぽだったら null を返す。
         /// </summary>
-        public static Rune? ParseRuneOpt(ReadOnlyMemory<byte> utf8)
+        public static uint? ParseCodePointOpt(ReadOnlyMemory<byte> utf8)
         {
-            if (Utf8Parser.TryParse(utf8.Span, out uint x, out _, 'X')) return new Rune(x);
+            if (Utf8Parser.TryParse(utf8.Span, out uint x, out _, 'X')) return x;
             else return null;
         }
 
@@ -57,7 +55,7 @@ namespace UnicodeDataCsharp
         /// 0600..0605 みたいなフィールドを parse。
         /// 16進数単体か、16進数2個を .. でつないだものかのどちらか。
         /// </summary>
-        public static RuneRange ParseRuneRange(ReadOnlyMemory<byte> utf8)
+        public static CodePointRange ParseCodePointRange(ReadOnlyMemory<byte> utf8)
         {
             var s = utf8.Span;
             var i = 0;
@@ -68,8 +66,8 @@ namespace UnicodeDataCsharp
 
             if(i == s.Length)
             {
-                var rune = ParseRune(utf8);
-                return new RuneRange(rune, rune);
+                var cp = ParseCodePoint(utf8);
+                return new CodePointRange(cp);
             }
 
             if(s[i + 1] != '.') throw new InvalidOperationException();
@@ -79,7 +77,7 @@ namespace UnicodeDataCsharp
 
             if (!Utf8Parser.TryParse(start, out uint x, out _, 'X')) throw new InvalidOperationException();
             if (!Utf8Parser.TryParse(end, out uint y, out _, 'X')) throw new InvalidOperationException();
-            return new RuneRange(x, y + 1);
+            return new CodePointRange(x, y + 1);
         }
     }
 }
