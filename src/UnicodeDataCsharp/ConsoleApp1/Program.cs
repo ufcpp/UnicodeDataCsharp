@@ -14,36 +14,30 @@ namespace ConsoleApp1
 
         static async Task Main()
         {
-            if (!Directory.Exists(cacheFolder))
-                Directory.CreateDirectory(cacheFolder);
+            var ucd = new Ucd();
 
-            await UnicodeData();
-            //await GraphemeBreakProperty();
+            await GraphemeBreakProperty(ucd);
+            await UnicodeData(ucd);
         }
 
-        private static async Task UnicodeData()
+        private static async Task UnicodeData(Ucd ucd)
         {
-            var file = "UnicodeData.txt";
+            var ud = await ucd.GetUnicodeData();
 
-            var content = await Loader.LoadContentAsync(Path.Combine(ucdUrl, file), Path.Combine(cacheFolder, file));
-
-            DecompositionMap(content);
-            //ReadUnicodeData(content);
-            //ReadLines(content);
+            DecompositionMap(ud);
+            ReadUnicodeData(ud);
         }
 
-        private static async Task GraphemeBreakProperty()
+        private static async Task GraphemeBreakProperty(Ucd ucd)
         {
-            var file = "GraphemeBreakProperty.txt";
+            var gb = await ucd.GetGraphemeBreakProperty();
 
-            var content = await Loader.LoadContentAsync(Path.Combine(ucdUrl, "auxiliary", file), Path.Combine(cacheFolder, file));
-
-            foreach (var e in new SingleProperty(content).GetEntries())
+            foreach (var e in gb.GetEntries())
             {
                 Console.WriteLine(e);
             }
 
-            //CheckInterned(content);
+            CheckInterned(gb);
         }
 
         /// <summary>
@@ -51,9 +45,9 @@ namespace ConsoleApp1
         /// x == y なら常に ReferenceEquals(x, y) になってるはず。
         /// というののチェック。
         /// </summary>
-        private static void CheckInterned(byte[] content)
+        private static void CheckInterned(SingleProperty sp)
         {
-            var groups = new SingleProperty(content).GetEntries()
+            var groups = sp.GetEntries()
                 .Select(x => x.Value)
                 .GroupBy(x => x);
 
@@ -69,9 +63,9 @@ namespace ConsoleApp1
             }
         }
 
-        private static void DecompositionMap(byte[] content)
+        private static void DecompositionMap(UnicodeData ud)
         {
-            foreach (var e in new UnicodeData(content).GetEntries())
+            foreach (var e in ud.GetEntries())
             {
                 if (e.DecompositionMapping.Length == 0) continue;
 
@@ -79,9 +73,9 @@ namespace ConsoleApp1
             }
         }
 
-        private static void ReadUnicodeData(byte[] content)
+        private static void ReadUnicodeData(UnicodeData ud)
         {
-            foreach (var e in new UnicodeData(content).GetEntries().Skip(30).Take(50))
+            foreach (var e in ud.GetEntries().Skip(30).Take(50))
             {
                 Console.WriteLine(e);
             }
