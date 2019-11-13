@@ -6,10 +6,13 @@ namespace UnicodeDataCsharp
 {
     internal class Parser
     {
-        private static readonly Encoding _utf8 = Encoding.UTF8;
+        // UCD 内のデータ、コメント(# から後ろ)以外に非 ASCII 文字は出てこないと明言されてた。
+        // コメントも取得したくなったら別途考える。
+        //private static readonly Encoding _utf8 = Encoding.UTF8;
+        private static readonly Encoding _ascii = Encoding.ASCII;
 
         public static string GetString(ReadOnlyMemory<byte> utf8) => GetString(utf8.Span);
-        public static string GetString(ReadOnlySpan<byte> utf8) => _utf8.GetString(utf8);
+        public static string GetString(ReadOnlySpan<byte> utf8) => _ascii.GetString(utf8);
 
         private static readonly Map _internString = new Map();
 
@@ -17,6 +20,9 @@ namespace UnicodeDataCsharp
         /// 文字列なんだけど、限られた種類しか来ないことがわかっているものに使う。
         /// 同じ UTF-8 <see cref="ReadOnlySpan{byte}"/> からは常に同一インスタンスの string を返す。
         /// </summary>
+        /// <remarks>
+        /// <seealso cref="Map"/>
+        /// </remarks>
         public static string GetInternString(ReadOnlyMemory<byte> utf8) => _internString.GetString(utf8.Span);
 
         /// <summary>

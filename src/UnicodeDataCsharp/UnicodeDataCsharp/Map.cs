@@ -6,7 +6,10 @@ namespace UnicodeDataCsharp
     /// <summary>
     /// キーとして <see cref="ReadOnlySpan{byte}"/> を受け付ける UTF-8 → UTF-16 (string)の辞書。
     /// </summary>
-    internal class Map
+    /// <remarks>
+    /// そんなに汎用性あるわけでもないけど、テスト用に public に。
+    /// </remarks>
+    public class Map
     {
         private static readonly Entry[] InitialEntries = new Entry[1];
         private int _count;
