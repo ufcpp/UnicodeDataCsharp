@@ -7,7 +7,7 @@ namespace UnicodeDataCsharp
 {
     using static Parser;
 
-    public struct SingleProperty : IEnumerable<SingleProperty.Line>
+    public partial struct SingleProperty : IEnumerable<SingleProperty.Line>
     {
         private readonly byte[] _data;
         public SingleProperty(byte[] data) => _data = data;
@@ -22,7 +22,7 @@ namespace UnicodeDataCsharp
         }
 
         // この型の時点ではアロケーションなしで、ReadOnlyMemory{T} を使ってスプリットしてる。
-        public readonly struct Line
+        public readonly partial struct Line
         {
             private readonly ReadOnlyMemory<byte> _rawData;
             public Line(ReadOnlyMemory<byte> rawData) => _rawData = rawData;
@@ -41,7 +41,7 @@ namespace UnicodeDataCsharp
         }
 
         // Line の各フィールドを parse。
-        public class Entry
+        public readonly partial struct Entry
         {
             public RuneRange Range { get; }
             public string Value { get; }

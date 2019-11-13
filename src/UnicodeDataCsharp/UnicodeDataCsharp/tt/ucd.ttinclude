@@ -47,7 +47,7 @@ string GetParserName(UcdFieldType type)
         _ => "Parse" + type,
     };
 
-void Generate(string name, params UcdField[] fields)
+void Generate(string name, bool isStructEntry, params UcdField[] fields)
 {
 #>
 using System;
@@ -59,7 +59,7 @@ namespace UnicodeDataCsharp
 {
     using static Parser;
 
-    public struct <#= name #> : IEnumerable<<#= name #>.Line>
+    public partial struct <#= name #> : IEnumerable<<#= name #>.Line>
     {
         private readonly byte[] _data;
         public <#= name #>(byte[] data) => _data = data;
@@ -74,7 +74,7 @@ namespace UnicodeDataCsharp
         }
 
         // この型の時点ではアロケーションなしで、ReadOnlyMemory{T} を使ってスプリットしてる。
-        public readonly struct Line
+        public readonly partial struct Line
         {
             private readonly ReadOnlyMemory<byte> _rawData;
             public Line(ReadOnlyMemory<byte> rawData) => _rawData = rawData;
@@ -100,7 +100,7 @@ namespace UnicodeDataCsharp
         }
 
         // Line の各フィールドを parse。
-        public class Entry
+        public <#= isStructEntry ? "readonly partial struct" : "partial class" #> Entry
         {
 <#+
     for (var i = 0; i < fields.Length; ++i)

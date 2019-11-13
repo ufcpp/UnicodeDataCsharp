@@ -1,6 +1,6 @@
 ﻿<#
 Generate(
-    "SingleProperty",
+    "SingleProperty", true,
     RuneRange("Range"),
     IStr("Value"));
 #>

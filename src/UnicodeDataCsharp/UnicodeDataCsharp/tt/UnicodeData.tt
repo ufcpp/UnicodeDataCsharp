@@ -1,6 +1,6 @@
 ﻿<#
 Generate(
-    "UnicodeData",
+    "UnicodeData", false,
     Rune("CodePoint"),
     Str("Name"),
     IStr("GeneralCategory"),
