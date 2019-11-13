@@ -1,0 +1,7 @@
+﻿<#
+Generate(
+    "SingleProperty",
+    RuneRange("Range"),
+    IStr("Value"));
+#>
+<#@ include file="ucd.ttinclude" #>

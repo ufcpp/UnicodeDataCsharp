@@ -7,10 +7,10 @@ namespace UnicodeDataCsharp
 {
     using static Parser;
 
-    public struct GraphemeBreakProperty : IEnumerable<GraphemeBreakProperty.Line>
+    public struct SingleProperty : IEnumerable<SingleProperty.Line>
     {
         private readonly byte[] _data;
-        public GraphemeBreakProperty(byte[] data) => _data = data;
+        public SingleProperty(byte[] data) => _data = data;
 
         public LineEnumerator<Line, LineFactory> GetEnumerator() => new LineEnumerator<Line, LineFactory>(_data);
         IEnumerator<Line> IEnumerable<Line>.GetEnumerator() => GetEnumerator();
@@ -29,7 +29,7 @@ namespace UnicodeDataCsharp
 
             public override string ToString() => GetString(_rawData);
 
-            public ReadOnlyMemory<byte> CodePoint => GetValue(0);
+            public ReadOnlyMemory<byte> Range => GetValue(0);
             public ReadOnlyMemory<byte> Value => GetValue(1);
 
             private ReadOnlyMemory<byte> GetValue(int column) => LineSplitter.GetValue(_rawData, column);
@@ -43,16 +43,16 @@ namespace UnicodeDataCsharp
         // Line の各フィールドを parse。
         public class Entry
         {
-            public RuneRange CodePoint { get; }
+            public RuneRange Range { get; }
             public string Value { get; }
 
             public Entry(Line line)
             {
-                CodePoint = ParseRuneRange(line.CodePoint);
+                Range = ParseRuneRange(line.Range);
                 Value = GetInternString(line.Value);
             }
 
-            public override string ToString() => (CodePoint, Value).ToString();
+            public override string ToString() => (Range, Value).ToString();
         }
 
         public IEnumerable<Entry> GetEntries()

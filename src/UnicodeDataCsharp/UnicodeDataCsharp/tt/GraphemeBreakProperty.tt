@@ -1,7 +1,0 @@
-﻿<#
-Generate(
-    "GraphemeBreakProperty",
-    RuneRange("CodePoint"),
-    IStr("Value")); // enum みたいなの用意したい or intern 化したい
-#>
-<#@ include file="ucd.ttinclude" #>

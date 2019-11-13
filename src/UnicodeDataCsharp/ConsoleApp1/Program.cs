@@ -38,7 +38,7 @@ namespace ConsoleApp1
 
             var content = await Loader.LoadContentAsync(Path.Combine(ucdUrl, "auxiliary", file), Path.Combine(cacheFolder, file));
 
-            foreach (var e in new GraphemeBreakProperty(content).GetEntries())
+            foreach (var e in new SingleProperty(content).GetEntries())
             {
                 Console.WriteLine(e);
             }
@@ -53,7 +53,7 @@ namespace ConsoleApp1
         /// </summary>
         private static void CheckInterned(byte[] content)
         {
-            var groups = new GraphemeBreakProperty(content).GetEntries()
+            var groups = new SingleProperty(content).GetEntries()
                 .Select(x => x.Value)
                 .GroupBy(x => x);
 
