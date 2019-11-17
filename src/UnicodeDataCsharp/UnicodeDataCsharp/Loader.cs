@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -23,6 +23,9 @@ namespace UnicodeDataCsharp
             // HttpClient ってむしろ Dispose した方が遅いみたいな話なかったっけ…
             using var c = new HttpClient();
             var res = await c.GetAsync(url);
+
+            if (res.StatusCode == System.Net.HttpStatusCode.NotFound) throw new FileNotFoundException();
+
             var content = await res.Content.ReadAsByteArrayAsync();
 
             await File.WriteAllBytesAsync(path, content);
