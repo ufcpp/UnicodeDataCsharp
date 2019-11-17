@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,7 +15,6 @@ namespace ConsoleApp1
         {
             var ucd = new Ucd();
 
-            await GraphemeBreakProperty(ucd);
             await UnicodeData(ucd);
         }
 
@@ -25,41 +24,6 @@ namespace ConsoleApp1
 
             DecompositionMap(ud);
             ReadUnicodeData(ud);
-        }
-
-        private static async Task GraphemeBreakProperty(Ucd ucd)
-        {
-            var gb = await ucd.GetGraphemeBreakProperty();
-
-            foreach (var e in gb.GetEntries())
-            {
-                Console.WriteLine(e);
-            }
-
-            CheckInterned(gb);
-        }
-
-        /// <summary>
-        /// <see cref="Parser.GetInternString(ReadOnlyMemory{byte})"/> で作った string は、
-        /// x == y なら常に ReferenceEquals(x, y) になってるはず。
-        /// というののチェック。
-        /// </summary>
-        private static void CheckInterned(SingleProperty sp)
-        {
-            var groups = sp.GetEntries()
-                .Select(x => x.Value)
-                .GroupBy(x => x);
-
-            foreach (var g in groups)
-            {
-                Console.WriteLine(g.Count());
-
-                var first = g.First();
-                foreach (var x in g)
-                {
-                    if (!ReferenceEquals(x, first)) throw new Exception();
-                }
-            }
         }
 
         private static void DecompositionMap(UnicodeData ud)
