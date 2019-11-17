@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 
 namespace UnicodeDataCsharp
 {
@@ -21,11 +21,11 @@ namespace UnicodeDataCsharp
         public readonly uint Start;
 
         /// <summary>
-        /// 範囲の末尾コード。exclusive。
+        /// 範囲の末尾コード。inclusive。
         /// <see cref="Start"/> と同じ値(範囲に1つだけ値がある)の場合あり。
         /// </summary>
         /// <remarks>
-        /// <see cref="ToString"/> では -1 して inclusive に戻して表示してる。
+        /// 空 range はあり得ないので inclusive でも特に問題ない。
         /// </remarks>
         public readonly uint End;
 
@@ -35,6 +35,6 @@ namespace UnicodeDataCsharp
         public override string ToString()
             => Start == End
             ? $"{Start:X}"
-            : $"{Start:X}..{End - 1:X}";
+            : $"{Start:X}..{End:X}";
     }
 }

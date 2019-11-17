@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Buffers.Text;
 using System.Text;
 
 namespace UnicodeDataCsharp
 {
-    internal class Parser
+    public class Parser
     {
         // UCD 内のデータ、コメント(# から後ろ)以外に非 ASCII 文字は出てこないと明言されてた。
         // コメントも取得したくなったら別途考える。
@@ -83,7 +83,7 @@ namespace UnicodeDataCsharp
 
             if (!Utf8Parser.TryParse(start, out uint x, out _, 'X')) throw new InvalidOperationException();
             if (!Utf8Parser.TryParse(end, out uint y, out _, 'X')) throw new InvalidOperationException();
-            return new CodePointRange(x, y + 1);
+            return new CodePointRange(x, y);
         }
     }
 }
