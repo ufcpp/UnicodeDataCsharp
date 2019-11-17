@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -41,12 +42,18 @@ namespace UnicodeDataCsharp
                 Directory.CreateDirectory(CacheFolder);
         }
 
+        private Task<byte[]> LoadAsync(string name, string? subFolder = null)
+        {
+            var relative = name;
+            if (subFolder is { } f) relative = f + "/" + relative;
+
+            return Loader.LoadContentAsync(
+                BaseUrl + relative,
+                Path.Combine(CacheFolder, name));
+        }
+
         public async ValueTask<UnicodeData> GetUnicodeData()
-            => _UnicodeData ??=
-                new UnicodeData(
-                    await Loader.LoadContentAsync(
-                        BaseUrl + "UnicodeData.txt",
-                        Path.Combine(CacheFolder, "UnicodeData.txt")));
+            => _UnicodeData ??= new UnicodeData(await LoadAsync("UnicodeData.txt"));
         private UnicodeData? _UnicodeData;
 
         // ReadOnlyMemory で返すべきか迷う。
@@ -56,11 +63,7 @@ namespace UnicodeDataCsharp
         private UnicodeData.Entry[]? _UnicodeDataEntries;
 
         public async ValueTask<SingleProperty> GetGraphemeBreakProperty()
-            => _GraphemeBreakProperty ??=
-                new SingleProperty(
-                    await Loader.LoadContentAsync(
-                        BaseUrl + "auxiliary/GraphemeBreakProperty.txt",
-                        Path.Combine(CacheFolder, "GraphemeBreakProperty.txt")));
+            => _GraphemeBreakProperty ??= new SingleProperty(await LoadAsync("GraphemeBreakProperty.txt", "auxiliary"));
 
         private SingleProperty? _GraphemeBreakProperty;
 
