@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Diagnostics;
+using System.Text;
 
 namespace UnicodeDataCsharp
 {
@@ -118,6 +119,15 @@ namespace UnicodeDataCsharp
             ref var value = ref GetOrAddValueRef(utf8);
             if (value == null) value = Parser.GetString(utf8);
             return value;
+        }
+
+        public string GetString(string s)
+        {
+            var enc = Encoding.UTF8;
+            var len = enc.GetByteCount(s);
+            Span<byte> buffer = stackalloc byte[len];
+            enc.GetBytes(s, buffer);
+            return GetString(buffer);
         }
 
         private static int GetHashCode(ReadOnlySpan<byte> utf8)
