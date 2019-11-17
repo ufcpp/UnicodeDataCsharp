@@ -1,0 +1,7 @@
+* text=auto eol=lf
+
+*.txt text
+*.md text
+*.cs text
+*.sln text
+*.csproj text
