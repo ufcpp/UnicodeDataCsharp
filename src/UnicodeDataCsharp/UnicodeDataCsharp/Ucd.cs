@@ -45,8 +45,8 @@ namespace UnicodeDataCsharp
             => _UnicodeData ??=
                 new UnicodeData(
                     await Loader.LoadContentAsync(
-                        Path.Combine(BaseUrl, "UnicodeData.Txt"),
-                        Path.Combine(CacheFolder, "UnicodeData.Txt")));
+                        BaseUrl + "UnicodeData.txt",
+                        Path.Combine(CacheFolder, "UnicodeData.txt")));
         private UnicodeData? _UnicodeData;
 
         // ReadOnlyMemory で返すべきか迷う。
@@ -59,8 +59,8 @@ namespace UnicodeDataCsharp
             => _GraphemeBreakProperty ??=
                 new SingleProperty(
                     await Loader.LoadContentAsync(
-                        Path.Combine(BaseUrl, "auxiliary", "GraphemeBreakProperty.Txt"),
-                        Path.Combine(CacheFolder, "GraphemeBreakProperty.Txt")));
+                        BaseUrl + "auxiliary/GraphemeBreakProperty.txt",
+                        Path.Combine(CacheFolder, "GraphemeBreakProperty.txt")));
 
         private SingleProperty? _GraphemeBreakProperty;
 
