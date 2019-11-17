@@ -83,7 +83,7 @@ namespace UnicodeDataCsharp
             return true;
         }
 
-        object System.Collections.IEnumerator.Current => Current;
+        object System.Collections.IEnumerator.Current => Current!;
         public void Dispose() { }
         public void Reset() => throw new NotImplementedException();
     }

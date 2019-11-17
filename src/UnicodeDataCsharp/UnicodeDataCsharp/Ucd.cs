@@ -32,7 +32,7 @@ namespace UnicodeDataCsharp
         /// </summary>
         /// <param name="url"><see cref="BaseUrl"/></param>
         /// <param name="cacheFolder"><see cref="CacheFolder"/></param>
-        public Ucd(string url = null, string cacheFolder = null)
+        public Ucd(string? url = null, string? cacheFolder = null)
         {
             BaseUrl = url ?? LatestBaseUrl;
             CacheFolder = cacheFolder ?? DefaultCacheFolder;
@@ -53,7 +53,7 @@ namespace UnicodeDataCsharp
         // 配列返すと書き換えられちゃうからほんとはまずいけど、生配列の方がパフォーマンスがよく。
         public async ValueTask<UnicodeData.Entry[]> GetUnicodeDataEntries()
             => _UnicodeDataEntries ??= (await GetUnicodeData()).GetEntries().ToArray();
-        private UnicodeData.Entry[] _UnicodeDataEntries;
+        private UnicodeData.Entry[]? _UnicodeDataEntries;
 
         public async ValueTask<SingleProperty> GetGraphemeBreakProperty()
             => _GraphemeBreakProperty ??=
@@ -66,6 +66,6 @@ namespace UnicodeDataCsharp
 
         public async ValueTask<SingleProperty.Entry[]> GetGraphemeBreakPropertyEntries()
             => _GraphemeBreakPropertyEntries ??= (await GetGraphemeBreakProperty()).GetEntries().ToArray();
-        private SingleProperty.Entry[] _GraphemeBreakPropertyEntries;
+        private SingleProperty.Entry[]? _GraphemeBreakPropertyEntries;
     }
 }
