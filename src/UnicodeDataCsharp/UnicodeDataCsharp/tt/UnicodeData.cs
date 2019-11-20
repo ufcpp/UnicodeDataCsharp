@@ -1,7 +1,6 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 
 namespace UnicodeDataCsharp
 {
@@ -21,7 +20,7 @@ namespace UnicodeDataCsharp
             public Line New(ReadOnlyMemory<byte> line) => new Line(line);
         }
 
-        // この型の時点ではアロケーションなしで、ReadOnlyMemory{T} を使ってスプリットしてる。
+        // Uses ReadOnlyMemory<T> for avoiding allocations
         public readonly partial struct Line
         {
             private readonly ReadOnlyMemory<byte> _rawData;
@@ -53,7 +52,7 @@ namespace UnicodeDataCsharp
             public Entry GetEntry() => new Entry(this);
         }
 
-        // Line の各フィールドを parse。
+        // Parses each fields of Line.
         public partial class Entry
         {
             public uint CodePoint { get; }
@@ -100,3 +99,4 @@ namespace UnicodeDataCsharp
         }
     }
 }
+

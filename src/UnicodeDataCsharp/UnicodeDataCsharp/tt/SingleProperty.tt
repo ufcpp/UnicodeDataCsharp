@@ -1,4 +1,4 @@
-﻿<#
+<#
 Generate(
     "SingleProperty", true,
     CpRange("Range"),
