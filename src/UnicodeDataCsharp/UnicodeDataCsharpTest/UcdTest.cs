@@ -8,7 +8,7 @@ namespace UnicodeDataCsharpTest
 {
     public class UcdTest
     {
-        private static Ucd Ucd { get; } = new Ucd();
+        public static Ucd Ucd { get; } = new Ucd();
 
         [Fact]
         public async Task CheckInterned()
